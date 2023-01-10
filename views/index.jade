@@ -1,5 +1,52 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  h1 RandomAPI
+  p Welcome to RandomAPI. This API has some helpful random number generation functions. Here are some of the uses for this API.
+
+
+  h2 /random
+  p This will generate a random value in the range [0,1). This is a value less than one but greater or equal to zero.
+  p It will return a JSON object in the form . . .
+  div.code-definition 
+    |{
+    span.left-tab-1 value:number
+    |} 
+
+  h2 /random/number-in-range
+  p This will generate values in a range defined in the request. The values 'lowerBound' and 'upperBound' are numbers and must be included in the request as follows . . .
+  div.code-definition 
+    |{
+    span.left-tab-1 lowerBound: number,
+    span.left-tab-1 upperBound: number 
+    |}
+  p This will return a JSON object as follows . . .
+  div.code-definition
+    |{
+    span.left-tab-1 value: number,
+    span.left-tab-1 lowerBound: number,
+    span.left-tab-1 upperBound: number 
+    |} 
+  p Where 'value' is the randomly generated value, 'lowerBound' is the smallest value for generation and 'upperBound' is the upper bound for the generated number. Please note 'value' can equal 'lowerBound' while 'value' must be less than 'upperBound'.
+  
+  h2 /random/numbers-in-range
+  p This will generate n numbers in a range defined in the request. The values 'count', 'lowerBound' and 'upperBound' are numbers and must be included in the request. An optional value 'allowReplacements' can also be added as follows . . .
+  .code-definition 
+    |{
+    span.left-tab-1 count: number,
+    span.left-tab-1 lowerBound: number,
+    span.left-tab-1 upperBound: number,
+    span.left-tab-1 allowReplacements?: boolean
+    |}
+  p Where 'count' is the number of values to be generated, 'lowerBound' is the smallest value that can be generated, 'upperBound' is the bound for number generaition and 'allowReplacements' states if you would like duplicates.
+  p Note 'allowReplacements' defaults to false if not defined meaning no duplicates. if 'allowReplacements' is false the number of generated values must be less than the range of values aka " n >= |UB-LB| ". 'upperBound' must also be greater than 'lowerBound'.
+  p This will return a JSON object as follows . . .
+  .code-definition 
+    |{
+    span.left-tab-1 values: number[ ],
+    span.left-tab-1 count: number,
+    span.left-tab-1 lowerBound: number,
+    span.left-tab-1 upperBound: number,
+    span.left-tab-1 allowReplacements: boolean
+    |}
+  p Where 'values' is an array of randomly generated values,'count' is the number of generated values, 'lowerBound' is the smallest value for generation, 'upperBound' is the upper bound for the generated numbers and 'allowReplacements' is if duplicates were allowed. Please note 'value' can equal 'lowerBound' while 'value' must be less than 'upperBound'.

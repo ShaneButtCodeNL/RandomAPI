@@ -1,8 +1,21 @@
 body {
-  padding: 50px;
+  padding: 1em;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: black;
+  color: whitesmoke;
 }
 
 a {
-  color: #00B7FF;
+  color: #00b7ff;
+}
+
+.code-definition {
+  border: grey outset 2px;
+  padding: 1em;
+  width: fit-content;
+}
+
+.left-tab-1 {
+  display: block;
+  margin-left: 1em;
 }
