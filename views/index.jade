@@ -1,52 +1,129 @@
 extends layout
 
 block content
-  h1 RandomAPI
-  p Welcome to RandomAPI. This API has some helpful random number generation functions. Here are some of the uses for this API.
+  .content
+    h1.center-title RandomAPI
+    p Welcome to RandomAPI. This API has some helpful random number generation functions. Here are some of the uses for this API.
 
-
-  h2 /random
-  p This will generate a random value in the range [0,1). This is a value less than one but greater or equal to zero.
-  p It will return a JSON object in the form . . .
-  div.code-definition 
-    |{
-    span.left-tab-1 value:number
-    |} 
-
-  h2 /random/number-in-range
-  p This will generate values in a range defined in the request. The values 'lowerBound' and 'upperBound' are numbers and must be included in the request as follows . . .
-  div.code-definition 
-    |{
-    span.left-tab-1 lowerBound: number,
-    span.left-tab-1 upperBound: number 
-    |}
-  p This will return a JSON object as follows . . .
-  div.code-definition
-    |{
-    span.left-tab-1 value: number,
-    span.left-tab-1 lowerBound: number,
-    span.left-tab-1 upperBound: number 
-    |} 
-  p Where 'value' is the randomly generated value, 'lowerBound' is the smallest value for generation and 'upperBound' is the upper bound for the generated number. Please note 'value' can equal 'lowerBound' while 'value' must be less than 'upperBound'.
-  
-  h2 /random/numbers-in-range
-  p This will generate n numbers in a range defined in the request. The values 'count', 'lowerBound' and 'upperBound' are numbers and must be included in the request. An optional value 'allowReplacements' can also be added as follows . . .
-  .code-definition 
-    |{
-    span.left-tab-1 count: number,
-    span.left-tab-1 lowerBound: number,
-    span.left-tab-1 upperBound: number,
-    span.left-tab-1 allowReplacements?: boolean
-    |}
-  p Where 'count' is the number of values to be generated, 'lowerBound' is the smallest value that can be generated, 'upperBound' is the bound for number generaition and 'allowReplacements' states if you would like duplicates.
-  p Note 'allowReplacements' defaults to false if not defined meaning no duplicates. if 'allowReplacements' is false the number of generated values must be less than the range of values aka " n >= |UB-LB| ". 'upperBound' must also be greater than 'lowerBound'.
-  p This will return a JSON object as follows . . .
-  .code-definition 
-    |{
-    span.left-tab-1 values: number[ ],
-    span.left-tab-1 count: number,
-    span.left-tab-1 lowerBound: number,
-    span.left-tab-1 upperBound: number,
-    span.left-tab-1 allowReplacements: boolean
-    |}
-  p Where 'values' is an array of randomly generated values,'count' is the number of generated values, 'lowerBound' is the smallest value for generation, 'upperBound' is the upper bound for the generated numbers and 'allowReplacements' is if duplicates were allowed. Please note 'value' can equal 'lowerBound' while 'value' must be less than 'upperBound'.
+    .root
+      .path
+        h2.center-title #{host}/random
+        p This will generate a random value in the range [0,1). This is a value less than one but greater or equal to zero.
+        p It will return a JSON object in the form . . .
+        div.code-definition 
+          |{
+          span.left-tab-1 value:number
+          |} 
+      .path
+        h2.center-title #{host}/random/number-in-range
+        p This will generate values in a range defined in the request. The values 'lowerBound' and 'upperBound' are numbers and must be included in the request as follows . . .
+        div.code-definition 
+          |{
+          span.left-tab-1 lowerBound: number,
+          span.left-tab-1 upperBound: number 
+          |}
+        p This will return a JSON object as follows . . .
+        div.code-definition
+          |{
+          span.left-tab-1 value: number,
+          span.left-tab-1 lowerBound: number,
+          span.left-tab-1 upperBound: number 
+          |} 
+        p Where 'value' is the randomly generated value, 'lowerBound' is the smallest value for generation and 'upperBound' is the upper bound for the generated number. Please note 'value' can equal 'lowerBound' while 'value' must be less than 'upperBound'.
+      .path
+        h2.center-title #{host}/random/numbers-in-range
+        p This will generate n numbers in a range defined in the request. The values 'count', 'lowerBound' and 'upperBound' are numbers and must be included in the request. An optional value 'allowReplacements' can also be added as follows . . .
+        .code-definition 
+          |{
+          span.left-tab-1 count: number,
+          span.left-tab-1 lowerBound: number,
+          span.left-tab-1 upperBound: number,
+          span.left-tab-1 allowReplacements?: boolean
+          |}
+        p Where 'count' is the number of values to be generated, 'lowerBound' is the smallest value that can be generated, 'upperBound' is the bound for number generaition and 'allowReplacements' states if you would like duplicates.
+        p Note 'allowReplacements' defaults to false if not defined meaning no duplicates. if 'allowReplacements' is false the number of generated values must be less than the range of values aka " n >= |UB-LB| ". 'upperBound' must also be greater than 'lowerBound'.
+        p This will return a JSON object as follows . . .
+        .code-definition 
+          |{
+          span.left-tab-1 values: number[ ],
+          span.left-tab-1 count: number,
+          span.left-tab-1 lowerBound: number,
+          span.left-tab-1 upperBound: number,
+          span.left-tab-1 allowReplacements: boolean
+          |}
+        p Where 'values' is an array of randomly generated values,'count' is the number of generated values, 'lowerBound' is the smallest value for generation, 'upperBound' is the upper bound for the generated numbers and 'allowReplacements' is if duplicates were allowed. Please note 'value' can equal 'lowerBound' while 'value' must be less than 'upperBound'.
+      .path
+        h2.center-title #{host}/random/flip-a-coin 
+        p Simulates flipping of a coin. Can be given optional values of 'verbose' and 'count'. If 'verbose' is true the returned values will be expanded. This means instead of getting "H" you will recieve "Heads" and "Tails" instead of "T". 'count' will return multiple coin flips.
+        p Request can contain the following . . . 
+        .code-definition 
+          |{
+          span.left-tab-1 count?: number,
+          span.left-tab-1 verbose?: boolean
+          |}
+        p Return value will depend data sent in the request. if 'count' is defined and is greater than one the return value will look like . . . 
+        .code-definition 
+          |{
+          span.left-tab-1 count: number,
+          span.left-tab-1 coin: string[ ]
+          |}
+        p Other wise it looks like . . . 
+        .code-definition 
+          |{
+          span.left-tab-1 coin: string
+          |}
+      .path
+        h2.center-title #{host}/random/roll-die 
+        p Simulates the rolling of dice. Request can include 'sides' to define the number of sides of the die, 'count' to tell how many die to roll.
+        p If 'sides' is not defined or given an invalid value it will default to six. If count is not defined or given a invalid value it will default to 1.
+        .code-definition 
+          |{
+          span.left-tab-1 sides?: number,
+          span.left-tab-1 count?: number
+          |} 
+        p Return value will contain the number of side, the number of dice rolled and the results of the rolls . . . 
+        .code-definition 
+          |{
+          span.left-tab-1 sides: number,
+          span.left-tab-1 count: number,
+          span.left-tab-1 values: number[ ]
+          |} 
+    .root
+      p The following API calls are used on an array of values to apply randomness to the array.
+      .path 
+        h2.center-title #{host}/array/shuffle
+        p This will take an array and shuffle it's values positions.
+        p Needs to be sent with an array of values to be shuffled as such . . . 
+        .code-definition 
+          |{
+          .span.left-tab-1 array: T[ ]  
+          |}
+        p Where 'T' is the type of values of the array.
+        p The call will return the original array as well as the shuffled array . . . 
+        .code-definition 
+          |{
+          .span.left-tab-1 array: T[ ],
+          .span.left-tab-1 shuffledArray: T [ ]
+          |}
+        p Where 'T' is the type of values in the array.'array' is the original array and 'shuffledArray' is the shuffled Array.
+      .path 
+        h2.center-title #{host}/array/pick
+        p This will pick random values from an array.
+        p You must give an array. You can also give a number of values to pick 'count' and if you would allow duplicate values 'allowReplacements'.
+        p Please note if you do not allow duplicates the number or values requested must be less then the length of the array.
+        .code-definition 
+          |{
+          .span-left-tab-1 array: T[ ],
+          .span-left-tab-1 count=1: number,
+          .span-left-tab-1 allowReplacements=false: boolean
+          |}
+        p Where 'T' is the type of values in the array. 'count' will default to one if undefined or invalid value is given. 'allowReplacements' will default to false if no value is given.
+        p The return value will be the original array, the number of values picked, if duplicates were allowd and the picked values.
+        .code-definition 
+          |{
+          .span-left-tab-1 array: T[ ],
+          .span-left-tab-1 count: number,
+          .span-left-tab-1 allowReplacements: boolean,
+          .span-left-tab-1 values: T[ ]
+          |}
+        p Where 'T' is the type of values in the array

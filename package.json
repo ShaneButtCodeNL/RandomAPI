@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "start http://localhost:3000 && npm run dev",
+    "dev": "npx nodemon ./bin/www"
   },
   "dependencies": {
     "@shane-butt/randomts": "^1.1.1",

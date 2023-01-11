@@ -58,7 +58,7 @@ router.get("/flip-coin", (req, res) => {
       let results = Array.from({ length: count }, (_) =>
         verboseCoinFlip(random.flipACoin(), verbose)
       );
-      res.json({ count, results });
+      res.json({ count, coin: results });
     }
   }
   let flip = verboseCoinFlip(random.flipACoin(), verbose);
@@ -70,10 +70,15 @@ Roll a dice
 */
 router.get("/roll-die", (req, res) => {
   let sides = req.body.sides;
+  let count = req.body.count;
   if (!sides || typeof sides !== "number" || sides < 1) sides = 6;
+  if (!count || typeof count !== "number" || count < 1) count = 1;
+  const value = [];
+  for (let i = 0; i < count; i++) value.push(random.rollNSidedDie(sides));
   res.json({
     sides,
-    value: random.rollNSidedDie(sides),
+    count,
+    value,
   });
 });
 module.exports = router;
