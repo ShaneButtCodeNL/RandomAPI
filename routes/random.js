@@ -12,10 +12,14 @@ const verboseCoinFlip = (val, verbose) => {
 /*
 Get a random number between [0,1)
 */
-router.get("/", (_, res) => {
-  const value = random.random();
-  console.log(`random value: ${value}`);
-  res.json({ value });
+router.get("/", (req, res) => {
+  let count = req.count;
+  let precision = req.precision;
+  if (!count || typeof count !== "number" || count < 1) count = 1;
+  if (!precision || typeof precision !== "number" || precision < 1)
+    precision = 3;
+  const value = Array.from({ length: count }, (_) => random.random(precision));
+  res.json({ value, count, precision });
 });
 
 /*
@@ -52,17 +56,12 @@ Flip a coin
 */
 router.get("/flip-coin", (req, res) => {
   const verbose = req.body.verbose || false;
-  const count = req.body.count;
-  if (count && typeof count === "number") {
-    if (count > 1) {
-      let results = Array.from({ length: count }, (_) =>
-        verboseCoinFlip(random.flipACoin(), verbose)
-      );
-      res.json({ count, coin: results });
-    }
-  }
-  let flip = verboseCoinFlip(random.flipACoin(), verbose);
-  res.json({ coin: flip });
+  let count = req.body.count;
+  if (!count || typeof count !== "number") count = 1;
+  let results = Array.from({ length: count }, (_) =>
+    verboseCoinFlip(random.flipACoin(), verbose)
+  );
+  res.json({ count, coin: results });
 });
 
 /*
@@ -79,6 +78,7 @@ router.get("/roll-die", (req, res) => {
     sides,
     count,
     value,
+    sum: value.reduce((a, v) => (a += v)),
   });
 });
 module.exports = router;

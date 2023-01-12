@@ -1,7 +1,9 @@
 extends layout
 
 mixin JSON_Data_Entry(name,type,comma)
-  span.left-tab-1 #{name}: #{type}#{comma}
+  span.left-tab-1 
+    span.variable-name #{name}
+    |: #{type}#{comma}
 
 mixin JSON_Data(listOfData)
   - var length = listOfData.length - 1
@@ -14,68 +16,216 @@ mixin JSON_Data(listOfData)
         +JSON_Data_Entry(data[0],data[1],",")
     |}
 
+mixin inline_variable(name)
+  span.no-break
+    |[ 
+    span.variable-name #{name} 
+    |]
+
 
 block content
   .content
     h1.center-title RandomAPI
     p Welcome to RandomAPI. This API has some helpful random number generation functions. Here are some of the uses for this API.
-
+    //- /random
     .root
+      //- /
       .path
         h2.center-title #{host}/random
-        p This will generate a random value in the range [0,1). This is a value less than one but greater or equal to zero.
+        p 
+          | This will generate a random value in the range [0,1).
+          |  This is a value less than one but greater or equal to zero.
+        p 
+          | You can send then number of random values you wish to generate as well as desired precision.
+        p 
+          | If no or an invalid value is given for count it will default to one.
+          |  If no or invalid value is given for precision it will default to three.
+        +JSON_Data([["count","number"],["precision","number"]])
+        p 
+          | Where  
+          +inline_variable("count")
+          |   is the number of values to be generated and  
+          +inline_variable("precision")
+          |   is the number of decimal places you need.
         p It will return a JSON object in the form . . .
-        +JSON_Data([["value","number"]])
+        +JSON_Data([["value","number[ ]"],["precision","number"],["count","number"]])
+
+      //- /number-in-range
       .path
         h2.center-title #{host}/random/number-in-range
-        p This will generate values in a range defined in the request. The values 'lowerBound' and 'upperBound' are numbers and must be included in the request as follows . . .
+        p
+          |This will generate values in a range defined in the request. The values 
+          span.variable-name lowerBound
+          |  and 
+          span.variable-name upperBound
+          |  are numbers and must be included in the request as follows . . .
         +JSON_Data([["lowerBound","number"],["upperBound","number"]])
-        p This will return a JSON object as follows . . .
+        p 
+          | This will return a JSON object as follows . . .
         +JSON_Data([["value","number"],["lowerBound","number"],["upperBound","number"]])
-        p Where 'value' is the randomly generated value, 'lowerBound' is the smallest value for generation and 'upperBound' is the upper bound for the generated number. Please note 'value' can equal 'lowerBound' while 'value' must be less than 'upperBound'.
+        p 
+          |Where 
+          +inline_variable("value")
+          |  is the randomly generated value, 
+          +inline_variable("lowerBound")
+          |  is the smallest value for generation and 
+          +inline_variable("upperBound")
+          |  is the upper bound for the generated number. Please note 
+          +inline_variable("value")
+          |  can equal 
+          +inline_variable("lowerBound")
+          |  while 
+          +inline_variable("value")
+          |  must be less than 
+          +inline_variable("upperBound")
+          |  .
+      
+      //- /numbers-in-range
       .path
         h2.center-title #{host}/random/numbers-in-range
-        p This will generate n numbers in a range defined in the request. The values 'count', 'lowerBound' and 'upperBound' are numbers and must be included in the request. An optional value 'allowReplacements' can also be added as follows . . .
-        +JSON_Data([["count","number"],["lowerBound","number"],["upperBound","number"],["allowReplacements?","boolean"]])
-        p Where 'count' is the number of values to be generated, 'lowerBound' is the smallest value that can be generated, 'upperBound' is the bound for number generaition and 'allowReplacements' states if you would like duplicates.
-        p Note 'allowReplacements' defaults to false if not defined meaning no duplicates. if 'allowReplacements' is false the number of generated values must be less than the range of values aka " n >= |UB-LB| ". 'upperBound' must also be greater than 'lowerBound'.
-        p This will return a JSON object as follows . . .
+        p
+          | This will generate n numbers in a range defined in the request. The values 
+          +inline_variable("count")
+          |  , 
+          +inline_variable("lowerBound")
+          |  and 
+          +inline_variable("upperBound")
+          |  are numbers and must be included in the request. An optional value 
+          +inline_variable("allowReplacements")
+          |  can also be added as follows . . .
+          +JSON_Data([["count","number"],["lowerBound","number"],["upperBound","number"],["allowReplacements","boolean"]])
+        p
+          | Where 
+          +inline_variable("count")
+          |  is the number of values to be generated, 
+          +inline_variable("lowerBound")
+          |  is the smallest value that can be generated, 
+          +inline_variable("upperBound")
+          |  is the bound for number generaition and 
+          +inline_variable("allowReplacements")
+          |  states if you would like duplicates.
+        p
+          | Note 
+          +inline_variable("allowReplacements")
+          |  defaults to false if not defined meaning no duplicates.
+          |  If 
+          +inline_variable("allowReplacements")
+          |  is false the number of generated values must be less than the range of values aka " n >= |UB-LB| ". 
+          +inline_variable("upperBound")
+          |  must also be greater than 
+          +inline_variable("lowerBound")
+          | .
+        p 
+          | This will return a JSON object as follows . . .
         +JSON_Data([["values", "number[ ]"],["count", "number"],["lowerBound", "number"],["upperBound", "number"],["allowReplacements", "boolean"]])
-        p Where 'values' is an array of randomly generated values,'count' is the number of generated values, 'lowerBound' is the smallest value for generation, 'upperBound' is the upper bound for the generated numbers and 'allowReplacements' is if duplicates were allowed. Please note 'value' can equal 'lowerBound' while 'value' must be less than 'upperBound'.
+        p
+          | Where 
+          +inline_variable("values")
+          |  is an array of randomly generated values, 
+          +inline_variable("count")
+          |  is the number of generated values, 
+          +inline_variable("lowerBound")
+          |  is the smallest value for generation, 
+          +inline_variable("upperBound")
+          |  is the upper bound for the generated numbers and 
+          +inline_variable("allowReplacements")
+          |  is if duplicates were allowed. 
+          | Please note 
+          +inline_variable("value")
+          |  can equal 
+          +inline_variable("lowerBound")
+          |  while 
+          +inline_variable("value")
+          |  must be less than 
+          +inline_variable("upperBound")
+          |.
+      
+      //- /flip-a-coin
       .path
         h2.center-title #{host}/random/flip-a-coin 
-        p Simulates flipping of a coin. Can be given optional values of 'verbose' and 'count'. If 'verbose' is true the returned values will be expanded. This means instead of getting "H" you will recieve "Heads" and "Tails" instead of "T". 'count' will return multiple coin flips.
+        p
+          | Simulates flipping of a coin. 
+          | Can be given optional values of 
+          +inline_variable("verbose")
+          |  and 
+          +inline_variable("count")
+          |. If 
+          +inline_variable("verbose")
+          |  is true the returned values will be expanded. This means instead of getting "H" you will recieve "Heads" and "Tails" instead of "T". 
+          +inline_variable("count")
+          |  will return multiple coin flips.
         p Request can contain the following . . . 
-        +JSON_Data([["count?","number"],["verbose?","boolean"]])
-        p Return value will depend data sent in the request. if 'count' is defined and is greater than one the return value will look like . . . 
+        +JSON_Data([["count","number"],["verbose","boolean"]])
+        p Return value will be . . . 
         +JSON_Data([["count","number"],["coin","string[ ]"]])
-        p Other wise it looks like . . . 
-        +JSON_Data([["coin","string"]])
+      
+      //- /roll-die
       .path
         h2.center-title #{host}/random/roll-die 
-        p Simulates the rolling of dice. Request can include 'sides' to define the number of sides of the die, 'count' to tell how many die to roll.
-        p If 'sides' is not defined or given an invalid value it will default to six. If count is not defined or given a invalid value it will default to 1.
-        +JSON_Data([["sides?","number"],["count?","number"]])
-        p Return value will contain the number of side, the number of dice rolled and the results of the rolls . . . 
-        +JSON_Data([["sides","number"],["count","number"],["values","number[ ]"]])
+        p
+          | Simulates the rolling of dice. 
+          | Request can include 
+          +inline_variable("sides")
+          |  to define the number of sides of the die, 
+          +inline_variable("count")
+          |  to tell how many die to roll.
+        p
+          | If 
+          +inline_variable("sides")
+          |  is not defined or given an invalid value it will default to six.
+          | If 
+          +inline_variable("count")
+          |  is not defined or given a invalid value it will default to one.
+        +JSON_Data([["sides","number"],["count","number"]])
+        p Return value will contain the number of side, the number of dice rolled, the results of the rolls and the sum of the values rolled . . . 
+        +JSON_Data([["sides","number"],["count","number"],["values","number[ ]"],["sum","number"]])
+    
+    //- /array
     .root
       p The following API calls are used on an array of values to apply randomness to the array.
+      
+      //- /shuffle
       .path 
         h2.center-title #{host}/array/shuffle
-        p This will take an array and shuffle it's values positions.
-        p Needs to be sent with an array of values to be shuffled as such . . . 
+        p
+          | This will take an array and shuffle it's values positions.
+        p
+          | Needs to be sent with an array of values to be shuffled as such . . . 
         +JSON_Data([["array","T[ ]"]])
-        p Where 'T' is the type of values of the array.
-        p The call will return the original array as well as the shuffled array . . . 
+        p
+          | Where [ T ] is the type of values of the array.
+        p
+          | The call will return the original array as well as the shuffled array . . . 
         +JSON_Data([["array","T[ ]"],["shuffledArray","T[ ]"]])
-        p Where 'T' is the type of values in the array.'array' is the original array and 'shuffledArray' is the shuffled Array.
+        p
+          | Where [ T ] is the type of values in the array. 
+          +inline_variable("array")
+          |  is the original array and 
+          +inline_variable("shuffledArray")
+          |  is the shuffled Array.
+      
       .path 
         h2.center-title #{host}/array/pick
-        p This will pick random values from an array.
-        p You must give an array. You can also give a number of values to pick 'count' and if you would allow duplicate values 'allowReplacements'.
-        p Please note if you do not allow duplicates the number or values requested must be less then the length of the array.
-        +JSON_Data([["array","T[ ]"],["count=1","number"],["allowReplacements=false","boolean"]])
-        p Where 'T' is the type of values in the array. 'count' will default to one if undefined or invalid value is given. 'allowReplacements' will default to false if no value is given.
-        p The return value will be the original array, the number of values picked, if duplicates were allowd and the picked values.
+        p
+          | This will pick random values from an array.
+        p
+          | You must give an array.
+          | You can also give a number of values to pick 
+          count
+          |  and if you would allow duplicate values 
+          allowReplacements
+          | .
+        p
+          | Please note if you do not allow duplicates the number or values requested must be less then the length of the array.
+        +JSON_Data([["array","T[ ]"],["count","number"],["allowReplacements","boolean"]])
+        p
+          | Where [ T ] is the type of values in the array. 
+          +inline_variable("count")
+          |  will default to one if undefined or invalid value is given. 
+          +inline_variable("allowReplacements")
+          |  will default to false if no value is given.
+        p
+          | The return value will be the original array, the number of values picked, if duplicates were allowd and the picked values.
         +JSON_Data([["array","T[ ]"],["count","number"],["allowReplacements","boolean"],["values","T[ ]"]])
-        p Where 'T' is the type of values in the array
+        p
+          | Where [ T ] is the type of values in the array

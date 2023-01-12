@@ -52,6 +52,15 @@ a {
   margin: auto;
 }
 
+.no-break {
+  white-space: nowrap;
+}
+
+.variable-name {
+  color: aqua;
+  text-decoration: double;
+}
+
 .left-tab-1 {
   display: block;
   margin-left: 1em;
