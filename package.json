@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "start http://localhost:3000 && npm run dev",
-    "dev": "npx nodemon ./bin/www"
+    "dev": "npx nodemon ./bin/www",
+    "test": "jest"
   },
   "dependencies": {
     "@shane-butt/randomts": "^1.1.1",
@@ -14,5 +15,8 @@
     "http-errors": "~1.6.3",
     "jade": "^0.29.0",
     "morgan": "~1.9.1"
+  },
+  "devDependencies": {
+    "jest": "^29.3.1"
   }
 }

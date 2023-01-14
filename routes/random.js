@@ -12,9 +12,9 @@ const verboseCoinFlip = (val, verbose) => {
 /*
 Get a random number between [0,1)
 */
-router.get("/", (req, res) => {
-  let count = req.count;
-  let precision = req.precision;
+router.post("/", (req, res) => {
+  let count = req.body.count;
+  let precision = req.body.precision;
   if (!count || typeof count !== "number" || count < 1) count = 1;
   if (!precision || typeof precision !== "number" || precision < 1)
     precision = 3;
@@ -25,7 +25,7 @@ router.get("/", (req, res) => {
 /*
 Get a value in a specific range
 */
-router.get("/number-in-range", (req, res) => {
+router.post("/number-in-range", (req, res) => {
   const lowerBound = req.body.lowerBound;
   const upperBound = req.body.upperBound;
   const value = random.randomNumberInRange(lowerBound, upperBound);
@@ -37,7 +37,7 @@ router.get("/number-in-range", (req, res) => {
 /*
 Get values in a specific range
 */
-router.get("/numbers-in-range", (req, res) => {
+router.post("/numbers-in-range", (req, res) => {
   const lowerBound = req.body.lowerBound;
   const upperBound = req.body.upperBound;
   const count = req.body.count;
@@ -54,7 +54,7 @@ router.get("/numbers-in-range", (req, res) => {
 /*
 Flip a coin
 */
-router.get("/flip-coin", (req, res) => {
+router.post("/flip-coin", (req, res) => {
   const verbose = req.body.verbose || false;
   let count = req.body.count;
   if (!count || typeof count !== "number") count = 1;
@@ -67,7 +67,7 @@ router.get("/flip-coin", (req, res) => {
 /*
 Roll a dice
 */
-router.get("/roll-die", (req, res) => {
+router.post("/roll-die", (req, res) => {
   let sides = req.body.sides;
   let count = req.body.count;
   if (!sides || typeof sides !== "number" || sides < 1) sides = 6;
